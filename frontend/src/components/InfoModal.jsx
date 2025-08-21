@@ -1,57 +1,91 @@
-import React from 'react'
-import { useState } from 'react'
+import { useState } from "react"
 
 const InfoModal = ({ cardInfo, onClose }) => {
-            const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(false)
 
-            if (!cardInfo) return null;
+  if (!cardInfo) return null
 
-            return (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="modal-enter bg-white rounded-xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="text-center mb-4">
-                            <div className="text-5xl mb-2">{cardInfo.icon}</div>
-                            <h3 className="text-xl font-bold text-gray-800">{cardInfo.name}</h3>
-                        </div>
-                        
-                        <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                            <h4 className="font-bold text-blue-800 mb-2">📋 ข้อมูลหลัก</h4>
-                            <p className="text-gray-700">{cardInfo.data}</p>
-                        </div>
+  const splitLines = (text) => {
+    if (!text) return [];
+    return text.split(/\n/).map((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) return null;
 
-                        {showMore && (
-                            <div className="bg-green-50 rounded-lg p-4 mb-4">
-                                <h4 className="font-bold text-green-800 mb-2">📚 ข้อมูลเพิ่มเติม</h4>
-                                <p className="text-gray-700 text-sm leading-relaxed">{cardInfo.additional}</p>
-                            </div>
-                        )}
+      const indent = line.match(/^\s*/)[0].length
 
-                        <div className="flex gap-3">
-                            {!showMore ? (
-                                <button 
-                                    onClick={() => setShowMore(true)}
-                                    className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition-colors"
-                                >
-                                    📖 อ่านเพิ่มเติม
-                                </button>
-                            ) : (
-                                <button 
-                                    onClick={() => setShowMore(false)}
-                                    className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-medium transition-colors"
-                                >
-                                    📄 ย่อข้อมูล
-                                </button>
-                            )}
-                            <button 
-                                onClick={onClose}
-                                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg font-medium transition-colors"
-                            >
-                                ปิด
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+      return {
+        text: trimmed.replace(/^[-•]/, "").trim(),
+        indent: indent,
+      }
+    }).filter(Boolean)
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="modal-enter bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-2xl font-bold flex items-center gap-2">
+            {cardInfo.image && (
+              <img src={cardInfo.image} alt={cardInfo.name} className="w-10 h-10 rounded-full" />
+            )}
+            {cardInfo.name}
+          </h3>
+          <button
+            onClick={onClose}
+            className="px-3 py-1 rounded-lg bg-gray-100 border hover:bg-gray-200 text-gray-700"
+          >
+            ปิด
+          </button>
+        </div>
+
+        {/* ข้อมูลหลัก */}
+        <div className="mb-4 rounded-xl border bg-blue-50/70">
+          <div className="px-4 py-2 font-semibold text-blue-800 border-b">
+            📋 เกร็ดน่ารู้
+          </div>
+          <div className="px-4 py-3 space-y-2 text-gray-700">
+            {splitLines(cardInfo.data).map((line, i) => (
+              <div key={i} className="flex gap-2">
+                <span className="text-blue-700">•</span>
+                <p>{line.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ข้อมูลเพิ่มเติม */}
+        {cardInfo.additional && (
+          <div className="mb-4 rounded-xl border bg-green-50/70">
+            <div className="px-4 py-2 font-semibold text-green-800 border-b flex items-center justify-between">
+              <span>📚 ข้อมูลเพิ่มเติม</span>
+              <button
+                onClick={() => setShowMore(!showMore)}
+                className="text-sm text-green-700 hover:underline"
+              >
+                {showMore ? "ย่อ ▲" : "อ่านเพิ่มเติม ▼"}
+              </button>
+            </div>
+            {showMore && (
+              <div className="px-4 py-3 space-y-2 text-gray-700 text-sm leading-relaxed">
+                {splitLines(cardInfo.additional).map((line, i) => (
+                  <div
+                    key={i}
+                    className="flex gap-2"
+                    style={{ marginLeft: `${Math.floor(line.indent / 2)}rem` }}
+                  >
+                    <span className="text-green-700">•</span>
+                    <p>{line.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
 export default InfoModal

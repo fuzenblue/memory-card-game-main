@@ -195,7 +195,7 @@ const MemoryGame = ({ pairCount, onBackHome }) => {
                                 {/* Card Front */}
                                 <div className="card-front flex items-center justify-center rounded-3xl">
                                     <img
-                                        src={assets?.back2}
+                                        src={assets?.back1}
                                         alt="card-back"
                                         className="max-w-full max-h-full"
                                     />

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import HealthInfoCard from '../components/HealthInfoCard'
-import { gameData } from '../assets/gamedata.js'
+import { assets, gameData } from '../assets/gamedata.js'
 
 
 const HomePage = ({ onStartGame }) => {
@@ -42,14 +42,8 @@ const HomePage = ({ onStartGame }) => {
                                 <p className="text-gray-700">จับคู่ให้ครบทุกคู่เพื่อชนะเกม</p>
                             </div>
                         </div>
-                        <div className="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg p-4">
-                            <h4 className="font-bold text-orange-800 mb-2">🏆 เป้าหมาย</h4>
-                            <ul className="text-orange-700 space-y-1 text-sm">
-                                <li>• จับคู่การ์ดให้ครบทุกคู่</li>
-                                <li>• เรียนรู้ข้อมูลสุขภาพ</li>
-                                <li>• ทำเวลาให้ดีที่สุด</li>
-                                <li>• สนุกไปกับการเรียนรู้</li>
-                            </ul>
+                        <div className="w-4/5 flex items-center justify-center">
+                            <img src={assets?.back2} alt="" />
                         </div>
                     </div>
                 </div>
@@ -87,23 +81,21 @@ const HomePage = ({ onStartGame }) => {
             </div>
 
             {/* Start Game Button */}
-            <div className="text-center pb-8">
+            <div className="bounce text-center pb-8">
                 <button
                     onClick={() => onStartGame(selectedPairs)}
-                    className="bounce bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xl font-bold py-4 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                    className="btn bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xl font-bold py-4 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
                 >
                     🚀 เริ่มเล่นเกม
                 </button>
-            </div>
 
-            {/* Health Information */}
-            <div className="max-w-6xl mx-auto px-4 pb-8">
-                <h3 className="text-xl font-bold text-center text-gray-800 mb-4">📚 ข้อมูลสุขภาพ</h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Object.entries(gameData).map(([name, info], index) => (
-                        <HealthInfoCard key={index} name={name} info={info} />
-                    ))}
-                </div>
+                {/* Health Information */}
+                <button
+                    onClick={() => onStartGame(selectedPairs)}
+                    className="btn mx-4 bg-gradient-to-r from-yellow-500 to-pink-500 hover:from-yellow-600 hover:to-pink-600 text-white text-xl font-bold py-4 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+                >
+                    📚 ข้อมูลสุขภาพ
+                </button>
             </div>
         </div>
     )
