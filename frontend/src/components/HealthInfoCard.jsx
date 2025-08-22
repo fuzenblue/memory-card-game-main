@@ -1,23 +1,31 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { gameData } from '../assets/gamedata'
 
-const HealthInfoCard = ({ name, info }) => {
+const HealthInfoCard = ({ name }) => {
   const [showMore, setShowMore] = useState(false)
 
+  // ดึงข้อมูลจาก gameData ตามชื่อ
+  const info = gameData[name]
+
+  if (!info) {
+    return (
+      <div className="p-4 bg-red-50 text-red-600 rounded-lg">
+        ⚠️ ข้อมูลของ <b>{name}</b> ไม่ถูกต้อง
+      </div>
+    )
+  }
+
   const splitLines = (text) => {
-    if (!text) return [];
+    if (!text) return []
     return text.split(/\n/).map((line) => {
-      const trimmed = line.trim();
-      if (!trimmed) return null;
-
-      const indent = line.match(/^\s*/)[0].length;
-
+      const trimmed = line.trim()
+      if (!trimmed) return null
+      const indent = line.match(/^\s*/)[0].length
       return {
         text: trimmed.replace(/^[-•]/, "").trim(),
         indent: indent,
       }
-    }).filter(Boolean);
+    }).filter(Boolean)
   }
 
   return (
@@ -30,35 +38,41 @@ const HealthInfoCard = ({ name, info }) => {
         <h4 className="font-bold text-gray-800 text-base">{name}</h4>
       </div>
 
-      {/* ข้อมูลหลัก */}
-      <div className="mb-3 rounded-xl border bg-blue-50/70">
-        <div className="px-3 py-2 font-semibold text-blue-800 border-b text-sm">
-          📋 เกร็ดน่ารู้
+      {/* เกร็ดน่ารู้ */}
+      {info.data && (
+        <div className="mb-4 rounded-xl border bg-blue-50/70">
+          <div className="px-4 py-2 font-semibold text-blue-800 border-b">
+            📋 เกร็ดน่ารู้
+          </div>
+          <div className="px-4 py-3 space-y-2 text-gray-700">
+            {splitLines(info.data).map((line, i) => (
+              <div
+                key={i}
+                className="flex gap-2"
+                style={{ marginLeft: `${Math.floor(line.indent / 2)}rem` }}
+              >
+                <span className="text-blue-700">•</span>
+                <p>{line.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="px-3 py-2 space-y-2 text-gray-700 text-sm">
-          {splitLines(info.data).map((line, i) => (
-            <div key={i} className="flex gap-2">
-              <span className="text-blue-700">•</span>
-              <p>{line.text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
 
       {/* ข้อมูลเพิ่มเติม */}
       {info.additional && (
-        <div className="mb-3 rounded-xl border bg-green-50/70">
-          <div className="px-3 py-2 font-semibold text-green-800 border-b flex items-center justify-between text-sm">
+        <div className="mb-4 rounded-xl border bg-green-50/70">
+          <div className="px-4 py-2 font-semibold text-green-800 border-b flex items-center justify-between">
             <span>📚 ข้อมูลเพิ่มเติม</span>
             <button
               onClick={() => setShowMore(!showMore)}
-              className="text-xs text-green-700 hover:underline"
+              className="text-sm text-green-700 hover:underline"
             >
               {showMore ? "ย่อ ▲" : "อ่านเพิ่มเติม ▼"}
             </button>
           </div>
           {showMore && (
-            <div className="px-3 py-2 space-y-2 text-gray-700 text-xs leading-relaxed">
+            <div className="px-4 py-3 space-y-2 text-gray-700 text-sm leading-relaxed">
               {splitLines(info.additional).map((line, i) => (
                 <div
                   key={i}

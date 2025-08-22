@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import InfoModal from '../components/InfoModal.jsx'
+import HealthInfoCard from '../components/HealthInfoCard'
 import GameOverModal from '../components/GameOverModal.jsx'
 import SummaryModal from '../components/SummaryModal.jsx'
 import { gameData, assets } from '../assets/gamedata.js'
@@ -12,6 +13,7 @@ const MemoryGame = ({ pairCount, onBackHome }) => {
     const [moves, setMoves] = useState(0);
     const [gameActive, setGameActive] = useState(true);
     const [showInfo, setShowInfo] = useState(null);
+    const [showHealthInfo, setShowHealthInfo] = useState(false)
     const [showGameOver, setShowGameOver] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
     const [startTime, setStartTime] = useState(Date.now());
@@ -44,33 +46,35 @@ const MemoryGame = ({ pairCount, onBackHome }) => {
         setCurrentTime(0);
 
         initGame();
-        
+
         timerRef.current = setInterval(() => {
             setCurrentTime(Math.floor((Date.now() - newStart) / 1000));
         }, 1000);
     };
 
     const initGame = () => {
-        const cardNames = Object.keys(gameData).slice(0, pairCount);
-        const gameCards = [...cardNames, ...cardNames];
+    const cardNames = Object.keys(gameData)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, pairCount);
+        
+    const gameCards = [...cardNames, ...cardNames];
 
-        // Shuffle cards
-        for (let i = gameCards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [gameCards[i], gameCards[j]] = [gameCards[j], gameCards[i]];
-        }
+    for (let i = gameCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [gameCards[i], gameCards[j]] = [gameCards[j], gameCards[i]];
+    }
 
-        console.log('Game cards:', gameCards); // Debug log
-        console.log('Game data keys:', Object.keys(gameData)); // Debug log
+    console.log('Selected cards:', cardNames);
+    console.log('Game cards:', gameCards);
 
-        setCards(gameCards);
-        setFlippedCards([]);
-        setMatchedPairs([]);
-        setMoves(0);
-        setGameActive(true);
-        setStartTime(Date.now());
-        setCurrentTime(0);
-    };
+    setCards(gameCards);
+    setFlippedCards([]);
+    setMatchedPairs([]);
+    setMoves(0);
+    setGameActive(true);
+    setStartTime(Date.now());
+    setCurrentTime(0);
+}
 
     const flipCard = (index) => {
         console.log('Flip card clicked:', index);
@@ -176,7 +180,36 @@ const MemoryGame = ({ pairCount, onBackHome }) => {
                     <div className="text-xs sm:text-sm text-gray-600 text-center">คู่ที่จับได้</div>
                     <div className="text-lg sm:text-xl font-bold text-purple-700 text-center">{matchedPairs.length / 2}/{pairCount}</div>
                 </div>
+                <div className="bg-gradient-to-r from-blue-500 to-pink-400 hover:from-blue-600 hover:to-pink-500 text-white backdrop-blur-sm rounded-lg px-3 sm:px-4 py-2 shadow-md flex-1 max-w-[120px] cursor-pointer"
+                    onClick={() => setShowHealthInfo(true)}>
+                    <div className="text-xs sm:text-sm text-gray-600 text-center"></div>
+                    <div className="text-lg sm:text-xl font-bold  text-center">
+                        อ่านข้อมูลการ์ด
+                    </div>
+                </div>
             </div>
+
+            {/* Modal แสดง HealthInfoCard */}
+            {showHealthInfo && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl p-6 max-w-4xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                        <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">📚 ข้อมูลสุขภาพ</h3>
+                        <div className="space-y-4">
+                            {Object.entries(gameData).map(([name, info], idx) => (
+                                <HealthInfoCard key={idx} name={name} cardInfo={info} />
+                            ))}
+                        </div>
+                        <div className="text-center mt-6">
+                            <button
+                                onClick={() => setShowHealthInfo(false)}
+                                className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-8 rounded-lg font-medium transition-colors"
+                            >
+                                ปิด
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
 
             {/* Game Board */}
