@@ -20,7 +20,7 @@ const HomePage = ({ onStartGame }) => {
             {/* How to Play */}
             <div className="max-w-2xl mx-auto px-4 mb-8">
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                    <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">วิธีการเล่น</h3>
+                    <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">🍬 วิธีการเล่น 🍬</h3>
                     <div className="space-y-4">
                         {[
                             { color: "blue", text: "เลือกจำนวนคู่การ์ดที่ต้องการเล่น (สูงสุด 16 คู่)" },
@@ -74,7 +74,7 @@ const HomePage = ({ onStartGame }) => {
                             onClick={() => onStartGame(selectedPairs)}
                             className="btn bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xl font-bold py-4 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
                         >
-                            เริ่มเล่นเกม
+                            เริ่มเล่นเกม ✨
                         </button>
                     </div>
                 </div>
