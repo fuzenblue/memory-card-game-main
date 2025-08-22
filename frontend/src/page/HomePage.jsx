@@ -42,7 +42,7 @@ const HomePage = ({ onStartGame }) => {
             {/* Game Settings */}
             <div className="max-w-md mx-auto px-4 mb-8">
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                    <h3 className="text-xl font-bold text-center text-gray-800 mb-4">⚙️ ตั้งค่าเกม</h3>
+                    <h3 className="text-md font-bold text-center text-gray-800 mb-4">⚙️ ตั้งค่าเกม</h3>
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">

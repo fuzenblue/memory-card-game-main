@@ -53,28 +53,28 @@ const MemoryGame = ({ pairCount, onBackHome }) => {
     };
 
     const initGame = () => {
-    const cardNames = Object.keys(gameData)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, pairCount);
-        
-    const gameCards = [...cardNames, ...cardNames];
+        const cardNames = Object.keys(gameData)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, pairCount);
 
-    for (let i = gameCards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [gameCards[i], gameCards[j]] = [gameCards[j], gameCards[i]];
+        const gameCards = [...cardNames, ...cardNames];
+
+        for (let i = gameCards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [gameCards[i], gameCards[j]] = [gameCards[j], gameCards[i]];
+        }
+
+        console.log('Selected cards:', cardNames);
+        console.log('Game cards:', gameCards);
+
+        setCards(gameCards);
+        setFlippedCards([]);
+        setMatchedPairs([]);
+        setMoves(0);
+        setGameActive(true);
+        setStartTime(Date.now());
+        setCurrentTime(0);
     }
-
-    console.log('Selected cards:', cardNames);
-    console.log('Game cards:', gameCards);
-
-    setCards(gameCards);
-    setFlippedCards([]);
-    setMatchedPairs([]);
-    setMoves(0);
-    setGameActive(true);
-    setStartTime(Date.now());
-    setCurrentTime(0);
-}
 
     const flipCard = (index) => {
         console.log('Flip card clicked:', index);
@@ -192,20 +192,24 @@ const MemoryGame = ({ pairCount, onBackHome }) => {
             {/* Modal แสดง HealthInfoCard */}
             {showHealthInfo && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl p-6 max-w-4xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">📚 ข้อมูลสุขภาพ</h3>
-                        <div className="space-y-4">
+                    <div className="bg-white rounded-xl max-w-4xl w-full shadow-2xl max-h-[90vh] flex flex-col relative">
+
+                        {/* Fixed Header with Close Button */}
+                        <div className="flex items-center justify-between p-6 border-b bg-white rounded-t-xl">
+                            <h3 className="text-2xl font-bold text-gray-800">📚 ข้อมูลสุขภาพ</h3>
+                            <button
+                                onClick={() => setShowHealthInfo(false)}
+                                className="bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-md flex items-center justify-center font-medium transition-colors"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        {/* Scrollable Content */}
+                        <div className="overflow-y-auto p-6 space-y-4 rounded-lg">
                             {Object.entries(gameData).map(([name, info], idx) => (
                                 <HealthInfoCard key={idx} name={name} cardInfo={info} />
                             ))}
-                        </div>
-                        <div className="text-center mt-6">
-                            <button
-                                onClick={() => setShowHealthInfo(false)}
-                                className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-8 rounded-lg font-medium transition-colors"
-                            >
-                                ปิด
-                            </button>
                         </div>
                     </div>
                 </div>
