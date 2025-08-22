@@ -24,14 +24,6 @@ const InfoModal = ({ cardInfo, onClose }) => {
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="modal-enter bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto relative">
 
-        {/* Close Button - Top Right */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 bg-gray-500 hover:bg-gray-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-medium transition-colors"
-        >
-          ×
-        </button>
-
         {/* Header */}
         <div className="mb-4 pr-8">
           <h3 className="text-2xl font-bold flex items-center gap-2">
@@ -85,6 +77,15 @@ const InfoModal = ({ cardInfo, onClose }) => {
             )}
           </div>
         )}
+
+        <div className="text-center mt-6">
+          <button
+            onClick={onClose}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-8 rounded-lg font-medium transition-colors"
+          >
+            ปิด
+          </button>
+        </div>
       </div>
     </div>
   )
