@@ -32,9 +32,9 @@ const SummaryModal = ({ onClose }) => {
               </div>
 
               {/* ข้อมูลหลัก */}
-              <div className="mb-4 rounded-xl border bg-blue-50/70">
+              <div className="mb-4 rounded-md bg-blue-50/70">
                 <div className="px-4 py-2 font-semibold text-blue-800 border-b">
-                  📋 เกร็ดน่ารู้
+                  💡 เกร็ดน่ารู้
                 </div>
                 <div className="px-4 py-3 space-y-2 text-gray-700">
                   {splitLines(info.data).map((line, i) => (
@@ -48,7 +48,7 @@ const SummaryModal = ({ onClose }) => {
 
               {/* ข้อมูลเพิ่มเติม */}
               {info.additional && (
-                <div className="mb-4 rounded-xl border bg-green-50/70">
+                <div className="mb-4 rounded-md bg-green-50/70">
                   <div className="px-4 py-2 font-semibold text-green-800 border-b flex items-center justify-between">
                     <span>📚 ข้อมูลเพิ่มเติม</span>
                     <button

@@ -40,9 +40,9 @@ const HealthInfoCard = ({ name }) => {
 
       {/* เกร็ดน่ารู้ */}
       {info.data && (
-        <div className="mb-4 rounded-xl border bg-blue-50/70">
-          <div className="px-4 py-2 font-semibold text-blue-800 border-b">
-            📋 เกร็ดน่ารู้
+        <div className="mb-4 rounded-md  bg-blue-50/70">
+          <div className="px-4 py-2 font-semibold text-blue-800">
+            💡 เกร็ดน่ารู้
           </div>
           <div className="px-4 py-3 space-y-2 text-gray-700">
             {splitLines(info.data).map((line, i) => (
@@ -61,14 +61,14 @@ const HealthInfoCard = ({ name }) => {
 
       {/* ข้อมูลเพิ่มเติม */}
       {info.additional && (
-        <div className="mb-4 rounded-xl border bg-green-50/70">
-          <div className="px-4 py-2 font-semibold text-green-800 border-b flex items-center justify-between">
+        <div className="mb-4 rounded-md  bg-green-50/70">
+          <div className="px-4 py-2 font-semibold text-green-800 flex items-center justify-between">
             <span>📚 ข้อมูลเพิ่มเติม</span>
             <button
               onClick={() => setShowMore(!showMore)}
               className="text-sm text-green-700 hover:underline"
             >
-              {showMore ? "ย่อ ▲" : "อ่านเพิ่มเติม ▼"}
+              {showMore ? "ย่อ ▲" : "แตะเพื่อเปิดอ่าน ▼"}
             </button>
           </div>
           {showMore && (
